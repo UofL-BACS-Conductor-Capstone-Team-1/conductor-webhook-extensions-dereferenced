@@ -74,6 +74,7 @@ include 'postgres-external-storage'
 include 'amqp'
 include 'nats'
 include 'nats-streaming'
+include 'webhook'
 
 include 'test-harness'
 
