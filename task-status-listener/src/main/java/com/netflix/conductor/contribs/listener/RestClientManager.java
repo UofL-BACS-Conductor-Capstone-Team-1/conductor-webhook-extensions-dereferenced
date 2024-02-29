@@ -179,7 +179,7 @@ public class RestClientManager {
                 .build();
     }
 
-    void postNotification(
+    public void postNotification(
             RestClientManager.NotificationType notifType,
             String data,
             String id,
