@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Conductor Authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,7 +16,7 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-//NEEDS TO BE CHANGED
+// NEEDS TO BE CHANGED
 @ConfigurationProperties("conductor.statusNotifier.notification")
 public class StatusNotifierNotificationProperties {
 

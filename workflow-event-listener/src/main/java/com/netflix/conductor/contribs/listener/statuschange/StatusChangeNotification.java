@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Conductor Authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,7 +12,6 @@
  */
 package com.netflix.conductor.contribs.listener.statuschange;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import com.netflix.conductor.common.run.Workflow;
 import com.netflix.conductor.common.run.WorkflowSummary;
-
 import com.netflix.conductor.contribs.listener.StatusNotifier;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -42,15 +41,16 @@ class StatusChangeNotification extends WorkflowSummary {
         Object statusNotifierVariable = variables.get("statusNotifier");
         if (statusNotifier != null) {
             try {
-                statusNotifier = objectMapper.readValue(statusNotifierVariable.toString(), new TypeReference<>() {
-                });
+                statusNotifier =
+                        objectMapper.readValue(
+                                statusNotifierVariable.toString(), new TypeReference<>() {});
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public StatusNotifier getstatusNotifier() {
+    public StatusNotifier getStatusNotifier() {
         return statusNotifier;
     }
 

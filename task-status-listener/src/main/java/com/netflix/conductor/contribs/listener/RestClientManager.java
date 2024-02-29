@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Conductor Authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -44,7 +45,7 @@ public class RestClientManager {
     private String notifType;
     private String notifId;
 
-    enum NotificationType {
+    public enum NotificationType {
         TASK,
         WORKFLOW
     };
@@ -200,17 +201,20 @@ public class RestClientManager {
         }
     }
 
-    private String prepareUrl(RestClientManager.NotificationType notifType, StatusNotifier statusNotifier) {
+    private String prepareUrl(
+            RestClientManager.NotificationType notifType, StatusNotifier statusNotifier) {
         String urlEndPoint = "";
 
         if (notifType == RestClientManager.NotificationType.TASK) {
-            if (statusNotifier != null && StringUtils.isNotBlank(statusNotifier.getEndpointTask())) {
+            if (statusNotifier != null
+                    && StringUtils.isNotBlank(statusNotifier.getEndpointTask())) {
                 urlEndPoint = statusNotifier.getEndpointTask();
             } else {
                 urlEndPoint = config.getEndpointTask();
             }
         } else if (notifType == RestClientManager.NotificationType.WORKFLOW) {
-            if (statusNotifier != null && StringUtils.isNotBlank(statusNotifier.getEndpointTask())) {
+            if (statusNotifier != null
+                    && StringUtils.isNotBlank(statusNotifier.getEndpointTask())) {
                 urlEndPoint = statusNotifier.getEndpointWorkflow();
             } else {
                 urlEndPoint = config.getEndpointWorkflow();

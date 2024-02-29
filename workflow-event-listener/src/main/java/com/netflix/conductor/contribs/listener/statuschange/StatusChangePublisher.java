@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Conductor Authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.netflix.conductor.contribs.listener.RestClientManager;
-
 import com.netflix.conductor.core.dal.ExecutionDAOFacade;
 import com.netflix.conductor.core.listener.WorkflowStatusListener;
 import com.netflix.conductor.model.WorkflowModel;
@@ -30,8 +30,7 @@ import com.netflix.conductor.model.WorkflowModel;
 @Singleton
 public class StatusChangePublisher implements WorkflowStatusListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StatusChangePublisher
-.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatusChangePublisher.class);
     private static final Integer QDEPTH =
             Integer.parseInt(
                     System.getenv().getOrDefault("ENV_WORKFLOW_NOTIFICATION_QUEUE_SIZE", "50"));
@@ -89,8 +88,7 @@ public class StatusChangePublisher implements WorkflowStatusListener {
     }
 
     @Inject
-    public StatusChangePublisher
-(RestClientManager rcm, ExecutionDAOFacade executionDAOFacade) {
+    public StatusChangePublisher(RestClientManager rcm, ExecutionDAOFacade executionDAOFacade) {
         this.rcm = rcm;
         this.executionDAOFacade = executionDAOFacade;
         ConsumerThread consumerThread = new ConsumerThread();
@@ -146,6 +144,6 @@ public class StatusChangePublisher implements WorkflowStatusListener {
                 RestClientManager.NotificationType.WORKFLOW,
                 jsonWorkflow,
                 statusChangeNotification.getWorkflowId(),
-                statusChangeNotification.getWebhook());
+                statusChangeNotification.getStatusNotifier());
     }
 }

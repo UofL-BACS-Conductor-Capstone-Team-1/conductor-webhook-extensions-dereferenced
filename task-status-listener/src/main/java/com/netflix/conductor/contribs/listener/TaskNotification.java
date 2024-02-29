@@ -1,4 +1,5 @@
 /*
+ * Copyright 2024 Conductor Authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,8 +11,6 @@
  * specific language governing permissions and limitations under the License.
  */
 package com.netflix.conductor.contribs.listener;
-
-import java.util.LinkedHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
