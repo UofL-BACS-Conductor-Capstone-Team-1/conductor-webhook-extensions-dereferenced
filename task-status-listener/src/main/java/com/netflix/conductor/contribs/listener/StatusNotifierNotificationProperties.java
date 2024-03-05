@@ -17,7 +17,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 // NEEDS TO BE CHANGED
-@ConfigurationProperties("conductor.statusNotifier.notification")
+@ConfigurationProperties("conductor.status-notifier.notification")
 public class StatusNotifierNotificationProperties {
 
     private String url;
