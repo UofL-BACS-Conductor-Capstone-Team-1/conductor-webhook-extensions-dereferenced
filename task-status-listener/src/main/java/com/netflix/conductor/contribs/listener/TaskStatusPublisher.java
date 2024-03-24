@@ -31,9 +31,8 @@ import com.netflix.conductor.model.TaskModel;
 public class TaskStatusPublisher implements TaskStatusListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskStatusPublisher.class);
-    private static final Integer QDEPTH =
-            Integer.parseInt(
-                    System.getenv().getOrDefault("ENV_TASK_NOTIFICATION_QUEUE_SIZE", "50"));
+    private static final Integer QDEPTH = Integer.parseInt(
+            System.getenv().getOrDefault("ENV_TASK_NOTIFICATION_QUEUE_SIZE", "50"));
     private BlockingQueue<TaskModel> blockingQueue = new LinkedBlockingDeque<>(QDEPTH);
 
     private RestClientManager rcm;
@@ -104,22 +103,6 @@ public class TaskStatusPublisher implements TaskStatusListener {
         consumerThread.start();
     }
 
-    @Override
-    public void onTaskScheduled(TaskModel task) {
-        try {
-            if (subscribedTaskStatusList.contains(TaskModel.Status.SCHEDULED.name())) {
-                blockingQueue.put(task);
-            }
-        } catch (Exception e) {
-            LOGGER.error(
-                    "Failed to enqueue task: Id {} Type {} of workflow {} ",
-                    task.getTaskId(),
-                    task.getTaskType(),
-                    task.getWorkflowInstanceId());
-            LOGGER.error(e.toString());
-        }
-    }
-
     private void enqueueTask(TaskModel task) {
         try {
             blockingQueue.put(task);
@@ -130,6 +113,13 @@ public class TaskStatusPublisher implements TaskStatusListener {
                     task.getTaskType(),
                     task.getWorkflowInstanceId());
             LOGGER.debug(e.toString());
+        }
+    }
+
+    @Override
+    public void onTaskScheduled(TaskModel task) {
+        if (subscribedTaskStatusList.contains(TaskModel.Status.SCHEDULED.name())) {
+            enqueueTask(task);
         }
     }
 
