@@ -31,8 +31,9 @@ import com.netflix.conductor.model.TaskModel;
 public class TaskStatusPublisher implements TaskStatusListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskStatusPublisher.class);
-    private static final Integer QDEPTH = Integer.parseInt(
-            System.getenv().getOrDefault("ENV_TASK_NOTIFICATION_QUEUE_SIZE", "50"));
+    private static final Integer QDEPTH =
+            Integer.parseInt(
+                    System.getenv().getOrDefault("ENV_TASK_NOTIFICATION_QUEUE_SIZE", "50"));
     private BlockingQueue<TaskModel> blockingQueue = new LinkedBlockingDeque<>(QDEPTH);
 
     private RestClientManager rcm;
@@ -103,9 +104,15 @@ public class TaskStatusPublisher implements TaskStatusListener {
         consumerThread.start();
     }
 
-    private void enqueueTask(TaskModel task) {
+    private void enqueueTask(TaskModel task, String status) {
         try {
             blockingQueue.put(task);
+            LOGGER.info(
+                    "Successfully enqueued task: Id {} Type {} of workflow {} of Status {}",
+                    task.getTaskId(),
+                    task.getTaskType(),
+                    task.getWorkflowInstanceId(),
+                    status);
         } catch (Exception e) {
             LOGGER.debug(
                     "Failed to enqueue task: Id {} Type {} of workflow {} ",
@@ -119,63 +126,63 @@ public class TaskStatusPublisher implements TaskStatusListener {
     @Override
     public void onTaskScheduled(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.SCHEDULED.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "SCHEDULED");
         }
     }
 
     @Override
     public void onTaskCanceled(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.CANCELED.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "CANCELED");
         }
     }
 
     @Override
     public void onTaskCompleted(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.COMPLETED.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "COMPLETED");
         }
     }
 
     @Override
     public void onTaskCompletedWithErrors(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.COMPLETED_WITH_ERRORS.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "COMPLETED_WITH_ERRORS");
         }
     }
 
     @Override
     public void onTaskFailed(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.FAILED.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "FAILED");
         }
     }
 
     @Override
     public void onTaskFailedWithTerminalError(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.FAILED_WITH_TERMINAL_ERROR.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "FAILED_WITH_TERMINAL_ERROR");
         }
     }
 
     @Override
     public void onTaskInProgress(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.IN_PROGRESS.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "IN_PROGRESS");
         }
     }
 
     @Override
     public void onTaskSkipped(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.SKIPPED.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "SKIPPED");
         }
     }
 
     @Override
     public void onTaskTimedOut(TaskModel task) {
         if (subscribedTaskStatusList.contains(TaskModel.Status.TIMED_OUT.name())) {
-            enqueueTask(task);
+            enqueueTask(task, "TIMED_OUT");
         }
     }
 
