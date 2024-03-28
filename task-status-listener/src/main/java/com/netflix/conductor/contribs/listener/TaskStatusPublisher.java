@@ -107,7 +107,7 @@ public class TaskStatusPublisher implements TaskStatusListener {
     private void enqueueTask(TaskModel task, String status) {
         try {
             blockingQueue.put(task);
-            LOGGER.info(
+            LOGGER.debug(
                     "Successfully enqueued task: Id {} Type {} of workflow {} of Status {}",
                     task.getTaskId(),
                     task.getTaskType(),
