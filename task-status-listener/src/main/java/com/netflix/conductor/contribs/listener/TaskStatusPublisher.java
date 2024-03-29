@@ -104,6 +104,16 @@ public class TaskStatusPublisher implements TaskStatusListener {
         consumerThread.start();
     }
 
+    private void validateSubscribedTaskStatuses(List<Srting> subscribedTaskStatuses) {
+        for (String taskStausType : subscribedTaskStatuses) {
+            if (taskStausType != "SCHEDULED") {
+                LOGGER.error(
+                    format:"Task Status Type {} will not push notificaitons. This functionallity only works for SCHEDULED Type ",
+                    taskStausType);            
+            }
+        } 
+    }
+
     @Override
     public void onTaskScheduled(TaskModel task) {
         try {
