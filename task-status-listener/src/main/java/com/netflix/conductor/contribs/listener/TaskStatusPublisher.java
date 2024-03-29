@@ -100,16 +100,17 @@ public class TaskStatusPublisher implements TaskStatusListener {
         this.rcm = rcm;
         this.executionDAOFacade = executionDAOFacade;
         this.subscribedTaskStatusList = subscribedTaskStatuses;
+        validateSubscribedTaskStatuses(subscribedTaskStatuses);
         ConsumerThread consumerThread = new ConsumerThread();
         consumerThread.start();
     }
 
-    private void validateSubscribedTaskStatuses(List<Srting> subscribedTaskStatuses) {
+    private void validateSubscribedTaskStatuses(List<String> subscribedTaskStatuses) {
         for (String taskStausType : subscribedTaskStatuses) {
-            if (taskStausType != "SCHEDULED") {
+            if (!taskStausType.equals("SCHEDULED")) {
                 LOGGER.error(
-                    format:"Task Status Type {} will not push notificaitons. This functionallity only works for SCHEDULED Type ",
-                    taskStausType);            
+                    "Task Status Type {} will only push notificaitons when updated through the API. Automatic notifications only work for SCHEDULED type.",
+                    taskStausType);
             }
         } 
     }
