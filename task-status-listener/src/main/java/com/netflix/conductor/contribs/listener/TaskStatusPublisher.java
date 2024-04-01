@@ -109,10 +109,10 @@ public class TaskStatusPublisher implements TaskStatusListener {
         for (String taskStausType : subscribedTaskStatuses) {
             if (!taskStausType.equals("SCHEDULED")) {
                 LOGGER.error(
-                    "Task Status Type {} will only push notificaitons when updated through the API. Automatic notifications only work for SCHEDULED type.",
-                    taskStausType);
+                        "Task Status Type {} will only push notificaitons when updated through the API. Automatic notifications only work for SCHEDULED type.",
+                        taskStausType);
             }
-        } 
+        }
     }
 
     @Override

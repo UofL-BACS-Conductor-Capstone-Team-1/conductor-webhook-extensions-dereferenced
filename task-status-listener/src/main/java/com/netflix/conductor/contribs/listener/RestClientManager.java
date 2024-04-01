@@ -226,7 +226,7 @@ public class RestClientManager {
         } else {
             url = config.getUrl();
         }
-        
+
         return url + "/" + urlEndPoint;
     }
 
