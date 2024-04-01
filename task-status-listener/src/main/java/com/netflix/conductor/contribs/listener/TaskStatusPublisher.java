@@ -115,22 +115,6 @@ public class TaskStatusPublisher implements TaskStatusListener {
         }
     }
 
-    @Override
-    public void onTaskScheduled(TaskModel task) {
-        try {
-            if (subscribedTaskStatusList.contains(TaskModel.Status.SCHEDULED.name())) {
-                blockingQueue.put(task);
-            }
-        } catch (Exception e) {
-            LOGGER.error(
-                    "Failed to enqueue task: Id {} Type {} of workflow {} ",
-                    task.getTaskId(),
-                    task.getTaskType(),
-                    task.getWorkflowInstanceId());
-            LOGGER.error(e.toString());
-        }
-    }
-
     private void enqueueTask(TaskModel task) {
         try {
             blockingQueue.put(task);
@@ -141,6 +125,13 @@ public class TaskStatusPublisher implements TaskStatusListener {
                     task.getTaskType(),
                     task.getWorkflowInstanceId());
             LOGGER.debug(e.toString());
+        }
+    }
+
+    @Override
+    public void onTaskScheduled(TaskModel task) {
+        if (subscribedTaskStatusList.contains(TaskModel.Status.SCHEDULED.name())) {
+            enqueueTask(task);
         }
     }
 
