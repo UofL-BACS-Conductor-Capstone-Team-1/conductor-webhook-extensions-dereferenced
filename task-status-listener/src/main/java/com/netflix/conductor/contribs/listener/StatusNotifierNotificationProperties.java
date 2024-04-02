@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-// NEEDS TO BE CHANGED
 @ConfigurationProperties("conductor.status-notifier.notification")
 public class StatusNotifierNotificationProperties {
 

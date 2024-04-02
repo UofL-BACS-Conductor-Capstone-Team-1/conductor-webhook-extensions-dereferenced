@@ -114,8 +114,6 @@ public class RestClientManager {
                         executionCount,
                         notifId);
                 return false;
-                //            } else if (rootCause instanceof SocketTimeoutException) {
-                //                return true;
             } else if (rootCause instanceof SocketException
                     || rootCause instanceof InterruptedIOException
                     || exception instanceof SSLException) {
@@ -169,7 +167,7 @@ public class RestClientManager {
         }
     }
 
-    // by default retries 3 times
+    // By default retries 3 times
     private CloseableHttpClient prepareClient() {
         return HttpClients.custom()
                 .setConnectionManager(prepareConnManager())
@@ -248,7 +246,7 @@ public class RestClientManager {
                 throw new ClientProtocolException("Unexpected response status: " + sc);
             }
         } finally {
-            httpPost.releaseConnection(); // release the connection gracefully so the connection can
+            httpPost.releaseConnection(); // Release the connection gracefully so the connection can
             // be reused by connection manager
         }
     }

@@ -24,8 +24,6 @@ import com.netflix.conductor.contribs.listener.StatusNotifierNotificationPropert
 import com.netflix.conductor.core.dal.ExecutionDAOFacade;
 import com.netflix.conductor.core.listener.WorkflowStatusListener;
 
-// @ConditionalOnProperty(name = "conductor.webhook.enabled", havingValue = "true")
-
 @Configuration
 @EnableConfigurationProperties(StatusNotifierNotificationProperties.class)
 @ConditionalOnProperty(
